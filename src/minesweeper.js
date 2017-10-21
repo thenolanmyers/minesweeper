@@ -19,14 +19,14 @@ function generateBoard (rows, columns, filler) {
 };
 
 const generateBombBoard = (rows, columns, numBombs) => {
-  let board = generateBoard(rows, columns, ' ');
+  let board = generateBoard(rows, columns, null);
 
   let bombsPlaced = 0;
   while (bombsPlaced < numBombs) {
       let randRow = Math.floor(Math.random() * rows);
       let randCol = Math.floor(Math.random() * columns);
+
       board[randRow][randCol] = 'B';
-      // console.log('Placed ' + randRow + ', ' + randCol);
       bombsPlaced++;
       // TODO: refactor to handle case where one bomb is placed on top of another
   }
