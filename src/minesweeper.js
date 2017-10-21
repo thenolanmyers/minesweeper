@@ -33,15 +33,6 @@ const generateBombBoard = (rows, columns, numBombs) => {
   return board;
 }
 
-/*
-const printBoard = (board) => {
-  console.log("Current board:");
-  for (const row of board) {
-    console.log(row.join(' | '));
-  }
-};
-*/
-
 const printBoard = (header, board) => {
   console.log(header);
   console.log(board.map(row => row.join(' | ')).join('\n'));
@@ -49,23 +40,3 @@ const printBoard = (header, board) => {
 
 printBoard('Player board:', generatePlayerBoard(3,4));
 printBoard('Bomb board:', generateBombBoard(3,4,5));
-
-/*
-// create and initialize board
-const board = [];
-for(i = 0; i < 3; i++) {
-  board.push([]);
-  for (j=0; j<3; j++) {
-    board[i].push(' ');
-  }
-}
-*/
-
-
-/*
-printBoard(board);
-
-board[0][1] = 1;
-board[2][2] = 'B';
-printBoard(board);
-*/
