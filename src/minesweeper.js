@@ -61,15 +61,16 @@ const getNumberOfNeighborBombs = (board, row, col) => {
 
     // But only if in range of the board
     if ( i >= 0 && i < board.length && j >= 0 && j < board[0].length ) {
-      console.log(`Checking ${i}, ${j}`);
+      // console.log(`Checking ${i}, ${j}`);
       if (board[i][j] === 'B') bombCount++;
     }
   });
 
-  // Print the board in debug mode
+  /* Print the board in debug mode...
   board[row][col] = 'X';
   printBoard ('Count elements: ', board, true);
   console.log(`Count for ${row}, ${col} = ${bombCount}`);
+  */
 
   return bombCount;
 }
@@ -97,6 +98,18 @@ const printBoard = (title, board, debugMode) => {
   console.log(board.map(row => row.join(' | ')).join('\n'));
 };
 
+const flipTile = (playerBoard, bombBoard, row, col) => {
+  if (playerBoard[row][col] !== ' ') {
+    console.log('Tile has already been flipped!');
+  } else if (bombBoard[row][col] === 'B') {
+    playerBoard[row][col] = 'B';
+  } else {
+    playerBoard[row][col] = getNumberOfNeighborBombs(bombBoard, row, col);
+  }
+  return;
+}
+
+
 
 /* MAIN BODY OF PROGRAM */
 
@@ -106,4 +119,9 @@ const bombBoard = generateBombBoard(6,5,12);
 printBoard('Player board:', playerBoard);
 printBoard('Bomb board:', bombBoard);
 
-console.log(getNumberOfNeighborBombs(bombBoard,3,2));
+flipTile (playerBoard, bombBoard, 0, 0);
+flipTile (playerBoard, bombBoard, 1, 4);
+flipTile (playerBoard, bombBoard, 2, 3);
+printBoard('Player board:', playerBoard);
+
+//console.log(getNumberOfNeighborBombs(bombBoard,3,2));
