@@ -1,3 +1,39 @@
+
+/** Game class
+ * Controls game function
+ */
+class Game {
+  /**
+   * constructor
+   * @param {number} rows in game board
+   * @param {number} cols in game board
+   * @param {number} bombs to randomly place
+   */
+  constructor (rows, cols, bombs) {
+    this._board = new Board (rows, cols, bombs);
+  }
+
+  get board () { return this._board; }
+
+  /**
+   * Make a move for specified row and column
+   * @param {number} r = row
+   * @param {number} c = column
+   */
+  playMove (r,c) {
+    console.assert(this.board.flipTile(r,c), "Flip failed");
+
+    if (this.board.playerBoard[r][c] === 'B' ) {
+      console.log ("You Lose! " + r + ", " + c);
+    } else if (!this.board.hasSafeTiles()) {
+      console.log ("You Win!");
+    } else {
+      console.log (`Flipped ${r}, ${c}`);
+    }
+    this.board.print()
+  }
+}
+
 class Board {
   constructor (rows, cols, bombs) {
     this._numBombs = bombs;
@@ -9,6 +45,12 @@ class Board {
   get playerBoard () { return this._playerBoard; }
   get bombBoard () { return this._bombBoard; }
 
+  /**
+   * Flips specified Tile
+   * @param {number} row
+   * @param {number} col
+   * @returns {Boolean} whether the flip happened
+   */
   flipTile (row, col) {
     if (this._playerBoard[row][col] !== ' ') {
       console.log('Tile has already been flipped: (' + row + ", " + col + ")");
@@ -18,6 +60,7 @@ class Board {
     } else {
       this._playerBoard[row][col] = this.getNumberOfNeighborBombs(row, col);
     }
+    // console.log(this._numTiles);
     this._numTiles--;
     return true;
   }
@@ -25,10 +68,14 @@ class Board {
   getNumberOfNeighborBombs (row, col) {
     const neighborOffsets = [];
 
+    // console.log(`Counting neighbors: ${row}, ${col}`);
+    // this.print('playerBoard');
+    // this.print('bombBoard');
+
     // Create array with all adjacent indices to row, col
     // Add a neighbor for each row and column +/- 1 from index
-    for (i=-1; i<=1; i++) {
-      for (j=-1; j<=1; j++){
+    for (let i=-1; i<=1; i++) {
+      for (let j=-1; j<=1; j++){
         if (i === 0 && j === 0) continue;
 
         neighborOffsets.push([row + i, col + j]);
@@ -52,10 +99,11 @@ class Board {
   }
 
   hasSafeTiles () {
-    return this._numTiles === this._numBombs;
+    // console.log (this._numTiles !== this._numBombs);
+    return this._numTiles !== this._numBombs;
   }
 
-  print (boardName, debugMode) {
+  print (boardName, debugMode) { // optional parameters
     // Default to playerBoard and debugMode off if not specified
     let title = boardName ? boardName + ':' : 'Player board:';
     boardName = boardName ? boardName : 'playerBoard';
@@ -77,7 +125,7 @@ class Board {
       let rowCounter = -1; // accommodate the header row
       board.forEach( row => {
         if (rowCounter === -1) {
-          row.push('*');
+          row.push('*'); // for upper right corner
           rowCounter++;
         } else {
           row.push(rowCounter++);
@@ -156,9 +204,12 @@ class Board {
 /* MAIN BODY OF PROGRAM */
 
 const myBoard = new Board (6,5,12);
+const g = new Game(3,3,2);
+g.playMove(0,0);
+g.playMove(2,1);
 
-myBoard.print('playerBoard',true);
-myBoard.print('bombBoard',true);
+// myBoard.print('playerBoard',true);
+// myBoard.print('bombBoard',true);
 
 
 
