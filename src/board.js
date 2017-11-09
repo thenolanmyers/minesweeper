@@ -1,4 +1,4 @@
-export class Board {
+class Board {
   constructor (rows, cols, bombs) {
     this._numBombs = bombs;
     this._numTiles = rows * cols;
@@ -163,3 +163,4 @@ export class Board {
   }
 
 }
+module.exports = Board;
